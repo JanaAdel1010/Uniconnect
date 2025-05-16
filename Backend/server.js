@@ -11,6 +11,8 @@ const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth');
 
 const app = express();
+const Place = require('./models/Place');
+
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -31,3 +33,4 @@ sequelize.sync()
   .catch(err => {
     console.error('Error syncing database:', err);
   });
+
