@@ -1,7 +1,11 @@
+const fs = require('fs');
+console.log("Does .env exist?", fs.existsSync('.env'));
 
 const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
+console.log("Connecting to MySQL as:", process.env.DB_USER);
+
 
 const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth');

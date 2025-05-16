@@ -16,7 +16,7 @@ const User = sequelize.define('User', {
     allowNull: false
   },
   skills: {
-    type: DataTypes.STRING // comma separated e.g., "JS,HTML"
+    type: DataTypes.STRING
   },
   interests: {
     type: DataTypes.STRING
