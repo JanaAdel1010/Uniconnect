@@ -11,7 +11,7 @@ const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth');
 
 const app = express();
-const Place = require('./models/Place');
+const Place = require('./models/place');
 
 
 // Middleware to parse JSON bodies
