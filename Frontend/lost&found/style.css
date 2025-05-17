@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #e9eff6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card-container {
+  display: flex;
+  gap: 30px;
+}
+
+.card {
+  width: 250px;
+  height: 200fr;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  background: white;
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.card h2 {
+  margin: 10px 0 5px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.card.found .icon {
+  color: #2b80ff;
+}
+
+.card.lost .icon {
+  color: #ff3c3c;
+}
+
+.card.found button {
+  background: #2b80ff;
+}
+
+.card.lost button {
+  background: #ff3c3c;
+}
+
+button {
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.image{
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    object-fit: cover;
+}

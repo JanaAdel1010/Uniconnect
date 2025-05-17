@@ -1,0 +1,121 @@
+<!-- Save this as found.html (for reporting found items) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Report Found Item</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e9eff6;
+      margin: 0;
+      padding: 40px;
+    }
+    .form-container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    .form-header {
+      background: #28a745;
+      color: white;
+      padding: 25px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    .form-header h2 { margin: 0; }
+    .form-header p { margin-top: 5px; font-size: 14px; }
+    form { padding: 30px; }
+    .form-group { display: flex; gap: 20px; margin-bottom: 20px; }
+    .form-group input, .form-group textarea {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea { resize: vertical; height: 100px; }
+    label {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #match-results {
+      margin-top: 20px;
+      background: #f1f5ff;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    #match-results ul { margin: 10px 0 0; padding-left: 20px; }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <div class="form-header">
+    <h2>Report Found Item</h2>
+    <p>Enter details to help match this with reported lost items.</p>
+  </div>
+  <form id="foundForm">
+    <div class="form-group">
+      <input type="text" id="itemName" placeholder="Item Name *" required />
+      <input type="text" id="phone" placeholder="Phone Number *" required />
+    </div>
+    <div class="form-group">
+      <input type="text" id="description" placeholder="Description (e.g., silver ring) *" required />
+      <input type="date" id="foundDate" required />
+    </div>
+    <div class="form-group">
+      <label for="imageUpload">Upload an image (optional):</label>
+      <input type="file" id="imageUpload" accept="image/*">
+    </div>
+    <div class="form-group">
+      <textarea id="extra" placeholder="Any additional details? (optional)"></textarea>
+    </div>
+    <button type="submit">Submit Report</button>
+  </form>
+  <div id="match-results">
+    <strong>Best Matched Lost Items:</strong>
+    <ul id="matchList"></ul>
+  </div>
+</div>
+
+<script>
+    const foundItems = [
+    { name: "wallet", description: "black wallet", phone: "0101112233" },
+    { name: "phone", description: "red iPhone", phone: "0102223344" },
+    { name: "bag", description: "blue backpack", phone: "0105556677" },
+    { name: "watch", description: "silver wristwatch", phone: "0109998899" }
+    ];
+
+    document.getElementById("foundForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("itemName").value.toLowerCase();
+    const desc = document.getElementById("description").value.toLowerCase();
+
+    const matches = foundItems.filter(item =>
+        item.name.includes(name) || item.description.includes(desc)
+    );
+
+    // Save matches to localStorage
+    localStorage.setItem("found_matches", JSON.stringify(matches));
+    localStorage.setItem("userItem", JSON.stringify({ name, desc }));
+
+    // Redirect to result page
+    window.location.href = "match-result.html";
+    });
+</script>
+</body>
+</html>

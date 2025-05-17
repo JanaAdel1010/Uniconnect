@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Match Results</title>
+  <style>
+    body { font-family: Arial; background: #f2f2f2; padding: 40px; }
+    h2 { color: #2b80ff; }
+    .match-box {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .label { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Best Match</h2>
+  <div id="bestMatch" class="match-box"></div>
+
+  <h2>Other Found Items</h2>
+  <div id="otherMatches"></div>
+
+  <script>
+    const allItems = [
+        { name: "wallet", description: "black wallet", phone: "0101112233" },
+        { name: "phone", description: "red iPhone", phone: "0102223344" },
+        { name: "bag", description: "blue backpack", phone: "0105556677" },
+        { name: "watch", description: "silver wristwatch", phone: "0109998899" }
+    ];
+
+    const matches = JSON.parse(localStorage.getItem("lost_matches")) || [];
+    const best = matches[0];
+
+    function createMatchCard(item) {
+        const div = document.createElement("div");
+        div.className = "match-box";
+        div.innerHTML = `
+        <div><span class="label">Item:</span> ${item.name}</div>
+        <div><span class="label">Description:</span> ${item.description}</div>
+        <div><span class="label">Phone:</span> ${item.phone}</div>
+        `;
+        return div;
+    }
+
+    const bestMatchContainer = document.getElementById("bestMatch");
+    const otherMatchesContainer = document.getElementById("otherMatches");
+
+    if (best) {
+        bestMatchContainer.appendChild(createMatchCard(best));
+    } else {
+        bestMatchContainer.innerHTML = "<p>No matches found.</p>";
+    }
+
+    // Show all other found items except the best one (avoid duplication)
+    const rest = allItems.filter(item =>
+        !best || item.name !== best.name || item.description !== best.description
+    );
+
+    if (rest.length === 0) {
+        otherMatchesContainer.innerHTML = "<p>No other found items available.</p>";
+    } else {
+        rest.forEach(item => {
+        otherMatchesContainer.appendChild(createMatchCard(item));
+        });
+    }
+</script>
+
+</body>
+</html>
