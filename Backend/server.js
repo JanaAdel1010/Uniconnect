@@ -10,6 +10,8 @@ console.log("Connecting to MySQL as:", process.env.DB_USER);
 const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth');
 
+const partnerRoutes = require('./routes/partner');
+
 const app = express();
 const Place = require('./models/Place');
 
@@ -20,6 +22,7 @@ app.use(express.json());
 // Use auth routes under /api/auth
 app.use('/api/auth', authRoutes);
 
+app.use('/api/partnerFinder', partnerRoutes);
 const PORT = process.env.PORT || 5000;
 
 // Sync database and start server
