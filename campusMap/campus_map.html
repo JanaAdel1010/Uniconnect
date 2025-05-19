@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Uniconnect</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Uniconnect Directory</h1>
+
+    <div class="button-group">
+      <button onclick="showSessionOptions()">Find Session</button>
+      <button onclick="findClassroom()">Find Classroom</button>
+      <button onclick="findDoctor()">Find Doctor</button>
+    </div>
+
+    <div id="session-options" class="button-group hidden">
+      <button onclick="findSession('Lecture')">Lecture</button>
+      <button onclick="findSession('Section')">Section</button>
+      <button onclick="findSession('Lab')">Lab</button>
+    </div>
+
+    <div id="output" class="output"></div>
+  </div>
+
+  <script src="lookup.js"></script>
+</body>
+</html>
