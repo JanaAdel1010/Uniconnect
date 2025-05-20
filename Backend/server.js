@@ -14,6 +14,7 @@ const partnerRoutes = require('./routes/partner');
 
 const app = express();
 const Place = require('./models/place');
+const Doctor = require('./models/doctor');
 
 
 // Middleware to parse JSON bodies
