@@ -39,16 +39,23 @@
     const allItems = mode === "lost" ? [] : []; // Not needed if already loaded on the backend side
 
     function createMatchCard(item) {
-      const div = document.createElement("div");
-      div.className = "match-box";
-      div.innerHTML = `
-        ${item.image ? `<img src="${item.image}" alt="Item Image">` : ''}
-        <div><span class="label">Item:</span> ${item.name}</div>
-        <div><span class="label">Description:</span> ${item.description}</div>
-        <div><span class="label">Phone:</span> ${item.phone}</div>
-      `;
-      return div;
-    }
+    const div = document.createElement("div");
+    div.className = "match-box";
+
+    // Fix the image path
+    const imageUrl = item.image?.startsWith('/uploads/')
+    ?  `http://localhost:5000${item.image}`
+     : item.image;
+
+    div.innerHTML = `
+      ${imageUrl ? `<img src="${imageUrl}" alt="Item Image">` : ''}
+      <div><span class="label">Item:</span> ${item.name}</div>
+      <div><span class="label">Description:</span> ${item.description}</div>
+      <div><span class="label">Phone:</span> ${item.phone}</div>
+    `;
+   return div;
+  }
+
 
     const bestMatchContainer = document.getElementById("bestMatch");
     const otherMatchesContainer = document.getElementById("otherMatches");
