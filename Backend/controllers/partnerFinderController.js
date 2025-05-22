@@ -1,4 +1,4 @@
-const { useSyncExternalStore } = require('react');
+// const { useSyncExternalStore } = require('react');
 const db = require('../models/User');
 
 exports.findPartners = async (req, res) => {

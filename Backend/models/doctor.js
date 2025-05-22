@@ -6,15 +6,16 @@ const Doctor = sequelize.define('Doctor', {
     type: DataTypes.STRING,
     allowNull: false
   },
+    email: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false
+  },
   building: {
     type: DataTypes.STRING,
     allowNull: false
   },
   floor: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  office: {
     type: DataTypes.STRING,
     allowNull: false
   },
