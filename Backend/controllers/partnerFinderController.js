@@ -1,5 +1,5 @@
 // const { useSyncExternalStore } = require('react');
-const db = require('../models/User');
+const User = require('../models/User');
 
 exports.findPartners = async (req, res) => {
     const { skills = [], interests = [] } = req.body;
