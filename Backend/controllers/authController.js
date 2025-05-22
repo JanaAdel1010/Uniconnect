@@ -9,6 +9,12 @@ exports.register = async (req, res) => {
     return res.status(400).json({ msg: 'Please enter all required fields' });
   }
 
+  // ✅ Validate email format using simple regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ msg: 'Invalid email format' });
+  }
+
   try {
     const existing = await User.findOne({ where: { email } });
     if (existing) return res.status(400).json({ msg: 'Email already exists' });
@@ -29,6 +35,7 @@ exports.register = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;

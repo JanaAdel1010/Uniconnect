@@ -1,48 +1,56 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f9;
-  text-align: center;
-  padding: 30px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  margin-bottom: 20px;
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #9f7aea;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.container h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #000;
 }
 
 .button-group {
-  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-button {
-  padding: 12px 24px;
-  margin: 8px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: #4a90e2;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #357ab8;
-}
-
-input {
-  padding: 10px;
-  margin: 12px;
-  font-size: 16px;
-  width: 60%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.back-button {
-  margin-top: 20px;
-  background-color: #777;
-}
-
-#output {
-  margin-top: 20px;
+.button-group a button {
+  padding: 15px 30px;
   font-size: 18px;
+  background: #7c3aed;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);
+}
+
+.button-group a button:hover {
+  background: #a78bfa;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
 }
