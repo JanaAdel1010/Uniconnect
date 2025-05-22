@@ -14,6 +14,7 @@ const doctors = [
   { name: "Dr. Nour Ali", building: "Admin Building", floor: "3rd Floor", office: "305", hours: "Sun-Tue 10AM-12PM" },
   { name: "Dr. Laila Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
 ];
+
 //Remove special characters from the name
 function correctInput(input) {
   return input.replace(/[^a-zA-Z0-9\s]/g, ""); // only allow letters, numbers, and spaces
@@ -72,18 +73,22 @@ function searchClassroom() {
   }
 
   fetch(`/api/searchClassroom?name=${encodeURIComponent(name)}`)
-    .then(response => response.json())
-    .then(result => {
-      if (result) {
-        resultDiv.innerHTML = `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}`;
-      } else {
-        resultDiv.innerHTML = "Classroom not found.";
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching classroom:", error);
-      resultDiv.innerHTML = "Error fetching classroom data.";
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                displayClassroom(data.classroom);
+            } else {
+                alert("Classroom not found");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching classroom:", error);
+        });
 }
 
 // Doctor search
@@ -97,18 +102,22 @@ function searchDoctor() {
   }
 
   fetch(`/api/searchDoctor?name=${encodeURIComponent(name)}`)
-    .then(response => response.json())
-    .then(result => {
-      if (result) {
-        resultDiv.innerHTML = `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}, Office: ${escapeHTML(result.office)}<br>🕒 Office Hours: ${escapeHTML(result.hours)}`;
-      } else {
-        resultDiv.innerHTML = "Doctor not found.";
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching doctor:", error);
-      resultDiv.innerHTML = "Error fetching doctor data.";
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                displayDoctor(data.doctor);
+            } else {
+                alert("Doctor not found");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching doctor:", error);
+        });
 }
 
 // Timetable
