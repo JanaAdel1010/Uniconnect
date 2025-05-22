@@ -19,15 +19,28 @@ router.get('/doctor', async (req, res) => {
 });
 
 // GET place by room query
-router.get('/place', async (req, res) => {
+router.get('/searchClassroom', async (req, res) => {
+  const name = req.query.name;
+
+  if (!name) {
+    return res.status(400).json({ success: false, msg: 'Missing classroom name' });
+  }
+
   try {
-    const room = req.query.room || '';
-    const places = await Place.findAll({
-      where: { room: { [require('sequelize').Op.like]: `%${room}%` } }
+    const classroom = await Place.findOne({
+      where: {
+        name: name
+      }
     });
-    res.json(places);
+
+    if (classroom) {
+      res.json({ success: true, classroom });
+    } else {
+      res.json({ success: false, msg: 'Classroom not found' });
+    }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Database error:', err);
+    res.status(500).json({ success: false, msg: 'Server error' });
   }
 });
 
