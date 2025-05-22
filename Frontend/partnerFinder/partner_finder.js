@@ -2,7 +2,17 @@ async function findPartner() {
     let skillsInput = document.getElementById("skills").value.trim();
     let interestsInput = document.getElementById("interests").value.trim();
 
-    // If empty, force to 'none'
+    if ((skillsInput === "" || skillsInput.toLowerCase() !== "none" && skillsInput === "") &&
+        (interestsInput === "" || interestsInput.toLowerCase() !== "none" && interestsInput === "")) {
+        alert("Please enter skills and interests, or type 'none' to select all.");
+        return;
+    } else if (skillsInput === "" || skillsInput.toLowerCase() !== "none" && skillsInput === "") {
+        alert("Please enter skills, or type 'none' if you don't want specific skills to select all.");
+        return;
+    } else if (interestsInput === "" || interestsInput.toLowerCase() !== "none" && interestsInput === "") {
+        alert("Please enter interests, or type 'none' if you don't want specific interests to select all.");
+        return;
+    }
     if (skillsInput === "") skillsInput = "none";
     if (interestsInput === "") interestsInput = "none";
 
@@ -11,13 +21,6 @@ async function findPartner() {
 
     const list = document.getElementById('resultsList');
     list.innerHTML = '';
-
-    // Validate user must not leave inputs empty
-    if ((skills.length === 0 || (skills.length === 1 && skills[0] === "")) &&
-        (interests.length === 0 || (interests.length === 1 && interests[0] === ""))) {
-        alert("Please enter skills and/or interests, or type 'none' to select all.");
-        return;
-    }
 
     try {
         const response = await fetch('http://localhost:5000/api/partnerFinder/find-partners', {
