@@ -89,17 +89,26 @@ function searchClassroom() {
 // Doctor search
 function searchDoctor() {
   const name = correctInput(document.getElementById("doctorName").value.trim());
+  const resultDiv = document.getElementById("output");
 
   if (!name) {
-    document.getElementById("output").innerHTML = "Please enter a doctor's name.";
+    resultDiv.innerHTML = "Please enter a doctor's name.";
     return;
   }
 
-  const result = doctors.find(d => d.name.toLowerCase() === name.toLowerCase());
-
-  document.getElementById("output").innerHTML = result
-    ? `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}, Office: ${escapeHTML(result.office)}<br>🕒 Office Hours: ${escapeHTML(result.hours)}`
-    : "Doctor not found.";
+  fetch(`/api/searchDoctor?name=${encodeURIComponent(name)}`)
+    .then(response => response.json())
+    .then(result => {
+      if (result) {
+        resultDiv.innerHTML = `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}, Office: ${escapeHTML(result.office)}<br>🕒 Office Hours: ${escapeHTML(result.hours)}`;
+      } else {
+        resultDiv.innerHTML = "Doctor not found.";
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching doctor:", error);
+      resultDiv.innerHTML = "Error fetching doctor data.";
+    });
 }
 
 // Timetable
