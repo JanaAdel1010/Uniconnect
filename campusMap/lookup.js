@@ -22,7 +22,7 @@ function correctInput(input) {
 
 // to display as text not run
 function escapeHTML(str) {
-  return str.replace(/[&<>"']/g, function(match) {
+  return str.replace(/[&<>"']/g, function (match) {
     const escape = { '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;" };
     return escape[match];
   });
@@ -41,7 +41,7 @@ function searchSession() {
     return;
   }
 
-  const apiUrl = `/api/session?name=${encodeURIComponent(subject)}${type ? `&type=${encodeURIComponent(type)}` : ''}`;
+  const apiUrl = `http://localhost:5000/api/lookup/session?name=${encodeURIComponent(subject)}${type ? `&type=${encodeURIComponent(type)}` : ''}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -61,6 +61,14 @@ function searchSession() {
       resultDiv.innerHTML = "An error occurred while searching sessions.";
     });
 }
+function displayClassroom(classroom) {
+  const resultDiv = document.getElementById("output");
+  resultDiv.innerHTML = `
+    <h3>Classroom: ${escapeHTML(classroom.name)}</h3>
+    <p>📍 Building: ${escapeHTML(classroom.building)}</p>
+    <p>🏢 Floor: ${escapeHTML(classroom.floor)}</p>
+  `;
+}
 
 // Classroom search
 function searchClassroom() {
@@ -72,23 +80,23 @@ function searchClassroom() {
     return;
   }
 
-  fetch(`/api/searchClassroom?name=${encodeURIComponent(name)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                displayClassroom(data.classroom);
-            } else {
-                alert("Classroom not found");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching classroom:", error);
-        });
+  fetch(`http://localhost:5000/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        displayClassroom(data.classroom);
+      } else {
+        alert("Classroom not found");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching classroom:", error);
+    });
 }
 
 // Doctor search
@@ -101,23 +109,23 @@ function searchDoctor() {
     return;
   }
 
-  fetch(`/api/searchDoctor?name=${encodeURIComponent(name)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                displayDoctor(data.doctor);
-            } else {
-                alert("Doctor not found");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching doctor:", error);
-        });
+  fetch(`http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        displayDoctor(data.doctor);
+      } else {
+        alert("Doctor not found");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching doctor:", error);
+    });
 }
 
 // Timetable
