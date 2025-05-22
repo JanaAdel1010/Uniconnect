@@ -40,33 +40,50 @@ function searchSession() {
     return;
   }
 
-  const results = sessions.filter(s => s.type === type && s.name.toLowerCase().includes(subject.toLowerCase()));
+  const apiUrl = `/api/session?name=${encodeURIComponent(subject)}${type ? `&type=${encodeURIComponent(type)}` : ''}`;
 
-  if (results.length > 0) {
-    let html = `<h3>${type}s for ${escapeHTML(subject)}</h3>`;
-    results.forEach(s => {
-      html += `<strong>${escapeHTML(s.name)}</strong><br>📍 ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br>🕒 ${escapeHTML(s.time)}<br><br>`;
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(results => {
+      if (results.length > 0) {
+        let html = `<h3>${type ? `${escapeHTML(type)}s` : 'Sessions'} for ${escapeHTML(subject)}</h3>`;
+        results.forEach(s => {
+          html += `<strong>${escapeHTML(s.name)}</strong><br>📍 ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br>🕒 ${escapeHTML(s.time)}<br><br>`;
+        });
+        resultDiv.innerHTML = html;
+      } else {
+        resultDiv.innerHTML = `No ${type ? escapeHTML(type) : 'session'} found for ${escapeHTML(subject)}.`;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      resultDiv.innerHTML = "An error occurred while searching sessions.";
     });
-    resultDiv.innerHTML = html;
-  } else {
-    resultDiv.innerHTML = `No ${escapeHTML(type)} found for ${escapeHTML(subject)}.`;
-  }
 }
 
 // Classroom search
 function searchClassroom() {
   const name = correctInput(document.getElementById("classroomName").value.trim());
+  const resultDiv = document.getElementById("output");
 
   if (!name) {
-    document.getElementById("output").innerHTML = "Please enter a class's name.";
+    resultDiv.innerHTML = "Please enter a class's name.";
     return;
   }
 
-  const result = classrooms.find(c => c.name.toLowerCase() === name.toLowerCase());
-
-  document.getElementById("output").innerHTML = result
-    ? `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}`
-    : "Classroom not found.";
+  fetch(`/api/searchClassroom?name=${encodeURIComponent(name)}`)
+    .then(response => response.json())
+    .then(result => {
+      if (result) {
+        resultDiv.innerHTML = `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}`;
+      } else {
+        resultDiv.innerHTML = "Classroom not found.";
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching classroom:", error);
+      resultDiv.innerHTML = "Error fetching classroom data.";
+    });
 }
 
 // Doctor search
