@@ -9,8 +9,7 @@ console.log("Connecting to MySQL as:", process.env.DB_USER);
 
 const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth');
-const lostRoutes = require('./routes/lost');
-const foundRoutes = require('./routes/found');
+
 const partnerRoutes = require('./routes/partner');
 
 const app = express();
