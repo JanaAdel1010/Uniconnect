@@ -19,12 +19,20 @@ function correctInput(input) {
   return input.replace(/[^a-zA-Z0-9\s]/g, ""); // only allow letters, numbers, and spaces
 }
 
+// to display as text not run
+function escapeHTML(str) {
+  return str.replace(/[&<>"']/g, function(match) {
+    const escape = { '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;" };
+    return escape[match];
+  });
+}
+
 // Session search
 function searchSession() {
   const urlParams = new URLSearchParams(window.location.search);
   const type = urlParams.get('type');
 
-  const subject = document.getElementById("subjectName").value.trim();
+  const subject = correctInput(document.getElementById("subjectName").value.trim());
   const resultDiv = document.getElementById("output");
 
   if (!subject) {
@@ -35,13 +43,13 @@ function searchSession() {
   const results = sessions.filter(s => s.type === type && s.name.toLowerCase().includes(subject.toLowerCase()));
 
   if (results.length > 0) {
-    let html = `<h3>${type}s for ${subject}</h3>`;
+    let html = `<h3>${type}s for ${escapeHTML(subject)}</h3>`;
     results.forEach(s => {
-      html += `<strong>${s.name}</strong><br>📍 ${s.building}, ${s.floor}<br>🕒 ${s.time}<br><br>`;
+      html += `<strong>${escapeHTML(s.name)}</strong><br>📍 ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br>🕒 ${escapeHTML(s.time)}<br><br>`;
     });
     resultDiv.innerHTML = html;
   } else {
-    resultDiv.innerHTML = `No ${type} found for ${subject}.`;
+    resultDiv.innerHTML = `No ${escapeHTML(type)} found for ${escapeHTML(subject)}.`;
   }
 }
 
@@ -49,7 +57,7 @@ function searchSession() {
 function searchClassroom() {
   const name = correctInput(document.getElementById("classroomName").value.trim());
 
-  if (!nameInput) {
+  if (!name) {
     document.getElementById("output").innerHTML = "Please enter a class's name.";
     return;
   }
@@ -57,7 +65,7 @@ function searchClassroom() {
   const result = classrooms.find(c => c.name.toLowerCase() === name.toLowerCase());
 
   document.getElementById("output").innerHTML = result
-    ? `<strong>${result.name}</strong><br>📍 ${result.building}, ${result.floor}`
+    ? `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}`
     : "Classroom not found.";
 }
 
@@ -65,7 +73,7 @@ function searchClassroom() {
 function searchDoctor() {
   const name = correctInput(document.getElementById("doctorName").value.trim());
 
-  if (!nameInput) {
+  if (!name) {
     document.getElementById("output").innerHTML = "Please enter a doctor's name.";
     return;
   }
@@ -73,15 +81,16 @@ function searchDoctor() {
   const result = doctors.find(d => d.name.toLowerCase() === name.toLowerCase());
 
   document.getElementById("output").innerHTML = result
-    ? `<strong>${result.name}</strong><br>📍 ${result.building}, ${result.floor}, Office: ${result.office}<br>🕒 Office Hours: ${result.hours}`
+    ? `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}, Office: ${escapeHTML(result.office)}<br>🕒 Office Hours: ${escapeHTML(result.hours)}`
     : "Doctor not found.";
 }
 
 // Timetable
 function showSessionsForTimetable() {
   let list = '';
+  sessions.sort((a, b) => a.type.localeCompare(b.type));
   sessions.forEach((s, index) => {
-    list += `<input type="checkbox" id="session${index}" value="${s.name}"> ${s.name} (${s.type}) - ${s.time}<br>`;
+    list += `<input type="checkbox" id="session${index}" value="${escapeHTML(s.name)}"> ${escapeHTML(s.name)} (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
   });
   document.getElementById('sessionList').innerHTML = list;
 }
@@ -98,11 +107,32 @@ function saveTimetable() {
 }
 
 function displayMyTimetable() {
+  try {
+    let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
+    if (!Array.isArray(timetable)) throw new Error("Invalid timetable format");
+
+    let out = '';
+    timetable.forEach(s => {
+      out += `<strong>${escapeHTML(s.name)}</strong> (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
+    });
+    document.getElementById('myTimetable').innerHTML = out;
+    showNextSession();
+  } catch (error) {
+    console.error("Error reading timetable:", error);
+    document.getElementById('myTimetable').innerHTML = "Unable to load timetable data.";
+  }
+}
+
+function clearTimetable() {
+  localStorage.removeItem('myTimetable');
+  displayMyTimetable();
+}
+
+function showNextSession() {
   let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
-  let out = '';
-  timetable.forEach(s => {
-    out += `<strong>${s.name}</strong> (${s.type}) - ${s.time}<br>`;
-  });
-  document.getElementById('myTimetable').innerHTML = out;
-  showNextSession();
+  if (timetable.length === 0) {
+    document.getElementById('nextSession').innerHTML = "No upcoming sessions.";
+    return;
+  }
+  document.getElementById('nextSession').innerHTML = `Next: ${escapeHTML(timetable[0].name)} at ${escapeHTML(timetable[0].time)}`;
 }
