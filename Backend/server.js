@@ -3,6 +3,7 @@ console.log("Does .env exist?", fs.existsSync('.env'));
 
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 console.log("Connecting to MySQL as:", process.env.DB_USER);
 
@@ -20,6 +21,10 @@ const Doctor = require('./models/doctor');
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+app.use(cors());
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'campusMap')));
+
 // Use auth routes under /api/auth
 app.use('/api/auth', authRoutes);
 
@@ -34,8 +39,14 @@ app.use('/api/lost', lostRoutes);
 const foundRoutes = require('./routes/found');
 app.use('/api/found', foundRoutes);
 
+const lookupRoutes = require('./routes/lookUp');
+app.use('/api/lookup', lookupRoutes);
+
 const PORT = process.env.PORT || 5000;
 
+//Use helmet for XSS & header protection
+const helmet = require('helmet');
+app.use(helmet());
 // Sync database and start server
 sequelize.sync()
   .then(() => {

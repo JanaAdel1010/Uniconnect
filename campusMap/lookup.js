@@ -14,49 +14,142 @@ const doctors = [
   { name: "Dr. Nour Ali", building: "Admin Building", floor: "3rd Floor", office: "305", hours: "Sun-Tue 10AM-12PM" },
   { name: "Dr. Laila Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
 ];
+//Remove special characters from the name
+function correctInput(input) {
+  return input.replace(/[^a-zA-Z0-9\s]/g, ""); // only allow letters, numbers, and spaces
+}
+
+// to display as text not run
+function escapeHTML(str) {
+  return str.replace(/[&<>"']/g, function(match) {
+    const escape = { '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;" };
+    return escape[match];
+  });
+}
 
 // Session search
 function searchSession() {
   const urlParams = new URLSearchParams(window.location.search);
   const type = urlParams.get('type');
 
-  const subject = document.getElementById("subjectName").value.trim();
+  const subject = correctInput(document.getElementById("subjectName").value.trim());
   const resultDiv = document.getElementById("output");
 
   if (!subject) {
-    resultDiv.innerHTML = "❗ Please enter a subject.";
+    resultDiv.innerHTML = "Please enter a subject.";
     return;
   }
 
-  const results = sessions.filter(s => s.type === type && s.name.toLowerCase().includes(subject.toLowerCase()));
+  const apiUrl = `/api/session?name=${encodeURIComponent(subject)}${type ? `&type=${encodeURIComponent(type)}` : ''}`;
 
-  if (results.length > 0) {
-    let html = `<h3>${type}s for ${subject}</h3>`;
-    results.forEach(s => {
-      html += `<strong>${s.name}</strong><br>📍 ${s.building}, ${s.floor}<br>🕒 ${s.time}<br><br>`;
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(results => {
+      if (results.length > 0) {
+        let html = `<h3>${type ? `${escapeHTML(type)}s` : 'Sessions'} for ${escapeHTML(subject)}</h3>`;
+        results.forEach(s => {
+          html += `<strong>${escapeHTML(s.name)}</strong><br>📍 ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br>🕒 ${escapeHTML(s.time)}<br><br>`;
+        });
+        resultDiv.innerHTML = html;
+      } else {
+        resultDiv.innerHTML = `No ${type ? escapeHTML(type) : 'session'} found for ${escapeHTML(subject)}.`;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      resultDiv.innerHTML = "An error occurred while searching sessions.";
     });
-    resultDiv.innerHTML = html;
-  } else {
-    resultDiv.innerHTML = `❌ No ${type} found for ${subject}.`;
-  }
 }
 
 // Classroom search
 function searchClassroom() {
-  const name = document.getElementById("classroomName").value.trim();
-  const result = classrooms.find(c => c.name.toLowerCase() === name.toLowerCase());
+  const name = correctInput(document.getElementById("classroomName").value.trim());
+  const resultDiv = document.getElementById("output");
 
-  document.getElementById("output").innerHTML = result
-    ? `📖 <strong>${result.name}</strong><br>📍 ${result.building}, ${result.floor}`
-    : "❌ Classroom not found.";
+  if (!name) {
+    resultDiv.innerHTML = "Please enter a class's name.";
+    return;
+  }
+
+  fetch(`/api/searchClassroom?name=${encodeURIComponent(name)}`)
+    .then(response => response.json())
+    .then(result => {
+      if (result) {
+        resultDiv.innerHTML = `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}`;
+      } else {
+        resultDiv.innerHTML = "Classroom not found.";
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching classroom:", error);
+      resultDiv.innerHTML = "Error fetching classroom data.";
+    });
 }
 
 // Doctor search
 function searchDoctor() {
-  const name = document.getElementById("doctorName").value.trim();
+  const name = correctInput(document.getElementById("doctorName").value.trim());
+
+  if (!name) {
+    document.getElementById("output").innerHTML = "Please enter a doctor's name.";
+    return;
+  }
+
   const result = doctors.find(d => d.name.toLowerCase() === name.toLowerCase());
 
   document.getElementById("output").innerHTML = result
-    ? `🩺 <strong>${result.name}</strong><br>📍 ${result.building}, ${result.floor}, Office: ${result.office}<br>🕒 Office Hours: ${result.hours}`
-    : "❌ Doctor not found.";
+    ? `<strong>${escapeHTML(result.name)}</strong><br>📍 ${escapeHTML(result.building)}, ${escapeHTML(result.floor)}, Office: ${escapeHTML(result.office)}<br>🕒 Office Hours: ${escapeHTML(result.hours)}`
+    : "Doctor not found.";
+}
+
+// Timetable
+function showSessionsForTimetable() {
+  let list = '';
+  sessions.sort((a, b) => a.type.localeCompare(b.type));
+  sessions.forEach((s, index) => {
+    list += `<input type="checkbox" id="session${index}" value="${escapeHTML(s.name)}"> ${escapeHTML(s.name)} (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
+  });
+  document.getElementById('sessionList').innerHTML = list;
+}
+
+function saveTimetable() {
+  let selected = [];
+  sessions.forEach((s, index) => {
+    if (document.getElementById(`session${index}`).checked) {
+      selected.push(s);
+    }
+  });
+  localStorage.setItem('myTimetable', JSON.stringify(selected));
+  displayMyTimetable();
+}
+
+function displayMyTimetable() {
+  try {
+    let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
+    if (!Array.isArray(timetable)) throw new Error("Invalid timetable format");
+
+    let out = '';
+    timetable.forEach(s => {
+      out += `<strong>${escapeHTML(s.name)}</strong> (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
+    });
+    document.getElementById('myTimetable').innerHTML = out;
+    showNextSession();
+  } catch (error) {
+    console.error("Error reading timetable:", error);
+    document.getElementById('myTimetable').innerHTML = "Unable to load timetable data.";
+  }
+}
+
+function clearTimetable() {
+  localStorage.removeItem('myTimetable');
+  displayMyTimetable();
+}
+
+function showNextSession() {
+  let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
+  if (timetable.length === 0) {
+    document.getElementById('nextSession').innerHTML = "No upcoming sessions.";
+    return;
+  }
+  document.getElementById('nextSession').innerHTML = `Next: ${escapeHTML(timetable[0].name)} at ${escapeHTML(timetable[0].time)}`;
 }
