@@ -57,7 +57,7 @@ function searchSession() {
 function searchClassroom() {
   const name = correctInput(document.getElementById("classroomName").value.trim());
 
-  if (!nameInput) {
+  if (!name) {
     document.getElementById("output").innerHTML = "Please enter a class's name.";
     return;
   }
@@ -73,7 +73,7 @@ function searchClassroom() {
 function searchDoctor() {
   const name = correctInput(document.getElementById("doctorName").value.trim());
 
-  if (!nameInput) {
+  if (!name) {
     document.getElementById("output").innerHTML = "Please enter a doctor's name.";
     return;
   }
