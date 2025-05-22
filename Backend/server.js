@@ -22,7 +22,7 @@ const Doctor = require('./models/doctor');
 app.use(express.json());
 
 const path = require('path');
-app.use(express.static(path.join(__dirname, 'Frontend'))); 
+app.use(express.static(path.join(__dirname, 'campusMap'))); 
 
 // Use auth routes under /api/auth
 app.use('/api/auth', authRoutes);
