@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Partner Finder</title>
+    <link rel="stylesheet" href="partner_finder.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Find a Project Partner</h2>
+        <label for="skills">Skills (Comma-Separated):</label>
+        <input type="text" id="skills" name="skills" placeholder="Enter your skills here" />
+        <label for="interests">Interests (Comma-Separated):</label>
+        <input type="text" id="interests" name="interests" placeholder="Enter your interests here" />
+        <button onclick="findPartner()">Find Partners</button>
+        <ul id="resultsList"></ul>
+    </div>
+    <script src="partner_finder.js"></script>
+</body>
+</html>

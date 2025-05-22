@@ -68,24 +68,24 @@
     <h2>Report Lost Item</h2>
     <p>Provide details to help find a match with found items.</p>
   </div>
-  <form id="lostForm">
-    <div class="form-group">
-      <input type="text" id="itemName" placeholder="Item Name *" required />
-      <input type="text" id="phone" placeholder="Phone Number *" required />
-    </div>
-    <div class="form-group">
-      <input type="text" id="description" placeholder="Description (e.g., black wallet) *" required />
-      <input type="date" id="lostDate" required />
-    </div>
-    <div class="form-group">
-      <label for="imageUpload">Upload an image (optional):</label>
-      <input type="file" id="imageUpload" placeholder="add image" accept="image/*">
-    </div>
-    <div class="form-group">
-      <textarea id="extra" placeholder="Any additional details? (optional)"></textarea>
-    </div>
-    <button type="submit">Submit Report</button>
-  </form>
+  <form id="lostForm" enctype="multipart/form-data">
+  <div class="form-group">
+    <input type="text" id="itemName" name="name" placeholder="Item Name *" required />
+    <input type="text" id="phone" name="phone" placeholder="Phone Number *" required />
+  </div>
+  <div class="form-group">
+    <input type="text" id="description" name="description" placeholder="Description (e.g., black wallet) *" required />
+    <input type="date" id="lostDate" name="lostDate" required />
+  </div>
+  <div class="form-group">
+    <label for="imageUpload">Upload an image (optional):</label>
+    <input type="file" id="imageUpload" name="image" accept="image/*" />
+  </div>
+  <div class="form-group">
+    <textarea id="extra" name="extra" placeholder="Any additional details? (optional)"></textarea>
+  </div>
+  <button type="submit">Submit Report</button>
+ </form>
   <div id="match-results">
     <strong>Best Matched Found Items:</strong>
     <ul id="matchList"></ul>
