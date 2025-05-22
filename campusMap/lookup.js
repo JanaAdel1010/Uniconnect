@@ -61,14 +61,6 @@ function searchSession() {
       resultDiv.innerHTML = "An error occurred while searching sessions.";
     });
 }
-function displayClassroom(classroom) {
-  const resultDiv = document.getElementById("output");
-  resultDiv.innerHTML = `
-    <h3>Classroom: ${escapeHTML(classroom.name)}</h3>
-    <p>📍 Building: ${escapeHTML(classroom.building)}</p>
-    <p>🏢 Floor: ${escapeHTML(classroom.floor)}</p>
-  `;
-}
 
 // Classroom search
 function searchClassroom() {
@@ -178,4 +170,20 @@ function showNextSession() {
     return;
   }
   document.getElementById('nextSession').innerHTML = `Next: ${escapeHTML(timetable[0].name)} at ${escapeHTML(timetable[0].time)}`;
+}
+
+function displayClassroom(classroom) {
+  const resultDiv = document.getElementById("output");
+  resultDiv.innerHTML = `<h3>Classroom Info</h3>
+    <strong>${escapeHTML(classroom.name)}</strong><br>
+    ${escapeHTML(classroom.building)}, ${escapeHTML(classroom.floor)}<br>`;
+}
+
+function displayDoctor(doctor) {
+  const resultDiv = document.getElementById("output");
+  resultDiv.innerHTML = `<h3>Doctor Info</h3>
+    <strong>${escapeHTML(doctor.name)}</strong><br>
+     ${escapeHTML(doctor.building)}, ${escapeHTML(doctor.floor)}<br>
+    Office: ${escapeHTML(doctor.office)}<br>
+    Hours: ${escapeHTML(doctor.hours)}<br>`;
 }

@@ -1,48 +1,35 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f9;
-  text-align: center;
-  padding: 30px;
+  font-family: 'Poppins', sans-serif;
+  background: #181818;
+  color: #fff;
+  margin: 0;
 }
 
-h1 {
+header {
+  background: #1e1e1e;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.map-container {
+  padding: 30px;
+  text-align: center;
+}
+
+.map-container h2 {
+  color: #9f7aea;
   margin-bottom: 20px;
 }
 
-.button-group {
-  margin: 20px 0;
-}
-
-button {
-  padding: 12px 24px;
-  margin: 8px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: #4a90e2;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #357ab8;
-}
-
-input {
-  padding: 10px;
-  margin: 12px;
-  font-size: 16px;
-  width: 60%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.back-button {
-  margin-top: 20px;
-  background-color: #777;
-}
-
-#output {
-  margin-top: 20px;
-  font-size: 18px;
+.map {
+  width: 90%;
+  height: 500px;
+  background: #2c2c2c;
+  margin: auto;
+  border-radius: 12px;
+  border: 2px solid #9f7aea;
 }
