@@ -24,6 +24,16 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 app.use('/api/partnerFinder', partnerRoutes);
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static('uploads'));
+
+const lostRoutes = require('./routes/lost');
+app.use('/api/lost', lostRoutes);
+
+const foundRoutes = require('./routes/found');
+app.use('/api/found', foundRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 // Sync database and start server

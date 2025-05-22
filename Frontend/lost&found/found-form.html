@@ -91,31 +91,6 @@
     <ul id="matchList"></ul>
   </div>
 </div>
-
-<script>
-    const foundItems = [
-    { name: "wallet", description: "black wallet", phone: "0101112233" },
-    { name: "phone", description: "red iPhone", phone: "0102223344" },
-    { name: "bag", description: "blue backpack", phone: "0105556677" },
-    { name: "watch", description: "silver wristwatch", phone: "0109998899" }
-    ];
-
-    document.getElementById("foundForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const name = document.getElementById("itemName").value.toLowerCase();
-    const desc = document.getElementById("description").value.toLowerCase();
-
-    const matches = foundItems.filter(item =>
-        item.name.includes(name) || item.description.includes(desc)
-    );
-
-    // Save matches to localStorage
-    localStorage.setItem("found_matches", JSON.stringify(matches));
-    localStorage.setItem("userItem", JSON.stringify({ name, desc }));
-
-    // Redirect to result page
-    window.location.href = "match-result.html";
-    });
-</script>
+<script src="found.js"></script>
 </body>
 </html>
