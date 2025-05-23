@@ -30,30 +30,44 @@ function escapeHTML(str) {
 
 // Session search
 function searchSession() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const type = urlParams.get('type');
-
+  const type = document.getElementById("sessionType").value;
   const subject = correctInput(document.getElementById("subjectName").value.trim());
   const resultDiv = document.getElementById("output");
+
+  if (!type) {
+    resultDiv.innerHTML = "Please select a session type.";
+    return;
+  }
 
   if (!subject) {
     resultDiv.innerHTML = "Please enter a subject.";
     return;
   }
 
-  const apiUrl = `http://localhost:5000/api/lookup/session?name=${encodeURIComponent(subject)}${type ? `&type=${encodeURIComponent(type)}` : ''}`;
+  // Check locally if the session exists for the selected type
+  const matchedSession = sessions.find(s => 
+    s.type.toLowerCase() === type.toLowerCase() && s.name.toLowerCase() === subject.toLowerCase()
+  );
+
+  if (!matchedSession) {
+    resultDiv.innerHTML = `No ${type} found with the name "${subject}".`;
+    return;
+  }
+
+  // If valid, proceed to fetch API
+  const apiUrl = `http://localhost:5000/api/lookup/session?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
 
   fetch(apiUrl)
     .then(response => response.json())
     .then(results => {
       if (results.length > 0) {
-        let html = `<h3>${type ? `${escapeHTML(type)}s` : 'Sessions'} for ${escapeHTML(subject)}</h3>`;
+        let html = `<h3>${escapeHTML(type)}s for ${escapeHTML(subject)}</h3>`;
         results.forEach(s => {
           html += `<strong>${escapeHTML(s.name)}</strong><br> ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br> ${escapeHTML(s.time)}<br><br>`;
         });
         resultDiv.innerHTML = html;
       } else {
-        resultDiv.innerHTML = `No ${type ? escapeHTML(type) : 'session'} found for ${escapeHTML(subject)}.`;
+        resultDiv.innerHTML = `No ${type} found for ${escapeHTML(subject)}.`;
       }
     })
     .catch(err => {
