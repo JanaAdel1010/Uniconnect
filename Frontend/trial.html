@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panels with Images</title>
+  <style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('background.jpg'); 
+        background-size: cover;     
+        background-position: center; 
+        background-repeat: no-repeat;
+        font-family: Arial, sans-serif;
+        }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+    }
+    .panel {
+      width: 250px;
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      color: white;
+      user-select: none;
+      border-radius: 0px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      background: #333;
+      overflow: hidden;
+      text-align: center;
+    }
+    .panel:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+    .panel img {
+      max-width: 300px;
+      max-height: 200px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      object-fit: cover;
+      user-select: none;
+      pointer-events: none; 
+    }
+    .panel1 { background: #8ba2dc; }
+    .panel2 { background: #8ba2dc; }
+    .panel3 { background: #8ba2dc; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel panel1" onclick="goToPage('lost&found/main.html')">
+      <img src="lost-and-found.png" alt="Image 1" />
+
+    </div>
+    <div class="panel panel2" onclick="goToPage('../campusMap/campus_map.html')">
+      <img src="map.png" alt="Image 2" />
+
+    </div>
+    <div class="panel panel3" onclick="goToPage('partnerFinder/partner_finder.html')">
+      <img src="Partner.png" alt="Image 3" />
+
+    </div>
+  </div>
+
+  <script>
+    function goToPage(url) {
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
