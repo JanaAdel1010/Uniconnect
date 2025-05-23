@@ -114,7 +114,10 @@ function displaySessions(sessions) {
       <strong>${escapeHTML(session.name)}</strong><br>
       Type: ${escapeHTML(session.type)}<br>
       Location: ${escapeHTML(session.building)}, ${escapeHTML(session.floor)}<br>
-      Time: ${escapeHTML(session.time)}<br><br>
+      Time: ${escapeHTML(session.time)}<br>
+      Instructor: ${escapeHTML(session.Instructor)}<br>
+      classroom: ${escapeHTML(session.classroom)}<br>
+      <hr>
     `;
   });
 
