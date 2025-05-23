@@ -14,6 +14,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 dotenv.config();
 console.log("Connecting to MySQL as:", process.env.DB_USER);
+const app = express();
+
 
 
 const sequelize = require('./config/db');
@@ -21,7 +23,6 @@ const authRoutes = require('./routes/auth');
 const profileSetupRoutes = require('./routes/profileSetup');
 const partnerRoutes = require('./routes/partner');
 
-const app = express();
 const Place = require('./models/place');
 const Doctor = require('./models/doctor');
 

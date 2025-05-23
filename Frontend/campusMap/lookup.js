@@ -55,7 +55,7 @@ function searchSession() {
   }
 
   // If valid, proceed to fetch API
-  const apiUrl = `http://localhost:5000/api/lookup/session?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
+  const apiUrl = `http://localhost:3300/api/lookup/searchSession?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -86,7 +86,7 @@ function searchClassroom() {
     return;
   }
 
-  fetch(`http://localhost:5000/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
+  fetch(`http://localhost:3300/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -115,7 +115,7 @@ function searchDoctor() {
     return;
   }
 
-  fetch(`http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
+  fetch(`http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
