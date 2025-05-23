@@ -3,14 +3,13 @@ function correctInput(input) {
   return input.replace(/[^a-zA-Z0-9\s.]/g, ""); // allow letters, numbers, spaces, and dots
 }
 
-// to display as text not run
+// prevents XSS attacks
 function escapeHTML(str) {
   if (typeof str !== 'string') return ''; // prevent errors on null/undefined
   return str.replace(/[&<>"']/g, match => ({
     '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;"
   }[match]));
 }
-
 
 // Session search
 function searchSession() {
