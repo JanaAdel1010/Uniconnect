@@ -5,7 +5,7 @@ function correctInput(input) {
 
 // to display as text not run
 function escapeHTML(str) {
-  if (typeof str !== 'string') return ''; // ✅ prevent errors on null/undefined
+  if (typeof str !== 'string') return ''; // prevent errors on null/undefined
   return str.replace(/[&<>"']/g, match => ({
     '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;"
   }[match]));
