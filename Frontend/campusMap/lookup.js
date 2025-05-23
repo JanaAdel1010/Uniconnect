@@ -1,80 +1,46 @@
-// Sample data
-const sessions = [
-  { name: "CS101-SectionA", type: "Section", building: "Main Building", floor: "2nd Floor", time: "Sun 10AM-12PM" },
-  { name: "CS101-Lecture", type: "Lecture", building: "Main Building", floor: "Conf Hall", time: "Mon 1PM-3PM" },
-  { name: "CS101-Lab", type: "Lab", building: "Lab Building", floor: "Ground Floor", time: "Tue 2PM-4PM" }
-];
-
-const classrooms = [
-  { name: "CENG 204", building: "Engineering Building", floor: "2nd Floor" },
-  { name: "CS101", building: "Main Building", floor: "1st Floor" }
-];
-
-const doctors = [
-  { name: "Dr. Nour Ali", building: "Admin Building", floor: "3rd Floor", office: "305", hours: "Sun-Tue 10AM-12PM" },
-  { name: "Dr. Laila Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
-];
-
 //Remove special characters from the name
 function correctInput(input) {
-  return input.replace(/[^a-zA-Z0-9\s]/g, ""); // only allow letters, numbers, and spaces
+  return input.replace(/[^a-zA-Z0-9\s.]/g, ""); // allow letters, numbers, spaces, and dots
 }
 
-// to display as text not run
+// prevents XSS attacks
 function escapeHTML(str) {
-  return str.replace(/[&<>"']/g, function (match) {
-    const escape = { '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;" };
-    return escape[match];
-  });
+  if (typeof str !== 'string') return ''; // prevent errors on null/undefined
+  return str.replace(/[&<>"']/g, match => ({
+    '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;"
+  }[match]));
 }
 
 // Session search
 function searchSession() {
-  const type = document.getElementById("sessionType").value;
-  const subject = correctInput(document.getElementById("subjectName").value.trim());
+  const name = correctInput(document.getElementById("subjectName").value.trim());
+  
   const resultDiv = document.getElementById("output");
 
-  if (!type) {
-    resultDiv.innerHTML = "Please select a session type.";
+  if (!name) {
+    resultDiv.innerHTML = "Please enter a subject's name.";
     return;
   }
 
-  if (!subject) {
-    resultDiv.innerHTML = "Please enter a subject.";
-    return;
-  }
-
-  // Check locally if the session exists for the selected type
-  const matchedSession = sessions.find(s => 
-    s.type.toLowerCase() === type.toLowerCase() && s.name.toLowerCase() === subject.toLowerCase()
-  );
-
-  if (!matchedSession) {
-    resultDiv.innerHTML = `No ${type} found with the name "${subject}".`;
-    return;
-  }
-
-  // If valid, proceed to fetch API
-  const apiUrl = `http://localhost:3300/api/lookup/searchSession?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
-
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(results => {
-      if (results.length > 0) {
-        let html = `<h3>${escapeHTML(type)}s for ${escapeHTML(subject)}</h3>`;
-        results.forEach(s => {
-          html += `<strong>${escapeHTML(s.name)}</strong><br> ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br> ${escapeHTML(s.time)}<br><br>`;
-        });
-        resultDiv.innerHTML = html;
+  fetch(`http://localhost:5000/api/lookup/searchSession?name=${encodeURIComponent(name)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        displaySessions(data.sessions);
       } else {
-        resultDiv.innerHTML = `No ${type} found for ${escapeHTML(subject)}.`;
+        alert("sessions not found");
       }
     })
-    .catch(err => {
-      console.error(err);
-      resultDiv.innerHTML = "An error occurred while searching sessions.";
+    .catch(error => {
+      console.error("Error fetching sessions:", error);
     });
 }
+
 
 // Classroom search
 function searchClassroom() {
@@ -86,7 +52,7 @@ function searchClassroom() {
     return;
   }
 
-  fetch(`http://localhost:3300/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
+  fetch(`http://localhost:5000/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -114,8 +80,8 @@ function searchDoctor() {
     resultDiv.innerHTML = "Please enter a doctor's name.";
     return;
   }
-  console.log(`Requesting: http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`);
-  fetch(`http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
+  console.log(`Requesting: http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`);
+  fetch(`http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -133,6 +99,29 @@ function searchDoctor() {
       console.error("Error fetching doctor:", error);
     });
 }
+function displaySessions(sessions) {
+  const output = document.getElementById('output');
+
+  if (!Array.isArray(sessions) || sessions.length === 0) {
+    output.innerHTML = "No session data available.";
+    return;
+  }
+
+  let html = `<h3>Session Info</h3>`;
+  sessions.forEach(session => {
+    html += `
+      <strong>${escapeHTML(session.name)}</strong><br>
+      Type: ${escapeHTML(session.type)}<br>
+      Location: ${escapeHTML(session.building)}, ${escapeHTML(session.floor)}<br>
+      Time: ${escapeHTML(session.time)}<br>
+      Instructor: ${escapeHTML(session.Instructor)}<br>
+      classroom: ${escapeHTML(session.classroom)}<br>
+      <hr>
+    `;
+  });
+
+  output.innerHTML = html;
+}
 
 function displayClassroom(classroom) {
   const resultDiv = document.getElementById("output");
@@ -142,10 +131,14 @@ function displayClassroom(classroom) {
 }
 
 function displayDoctor(doctor) {
-  const resultDiv = document.getElementById("output");
-  resultDiv.innerHTML = `<h3>Doctor Info</h3>
-    <strong>${escapeHTML(doctor.name)}</strong><br>
-     ${escapeHTML(doctor.building)}, ${escapeHTML(doctor.floor)}<br>
-    Office: ${escapeHTML(doctor.office)}<br>
-    Hours: ${escapeHTML(doctor.hours)}<br>`;
+  const output = document.getElementById('output');
+  if (!doctor || !doctor.name) {
+    output.innerHTML = "Invalid doctor data.";
+    return;
+  }
+  output.innerHTML = `
+    <h3>${escapeHTML(doctor.name)}</h3>
+    ${escapeHTML(doctor.building)}, ${escapeHTML(doctor.floor)}<br>
+    Hours: ${escapeHTML(doctor.hours)}<br>
+  `;
 }

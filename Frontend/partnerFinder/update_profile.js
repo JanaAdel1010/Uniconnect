@@ -9,6 +9,15 @@ async function updateProfile() {
         return;
     }
 
+    if (!skillsInput) {
+        alert("You must add at least 1 skill.");
+        return;
+    }
+
+    if (!interestsInput) {
+        alert("You must add at least 1 interest.");
+        return;
+    }
 
     const confirmReplace = confirm(
         "This will replace any existing skills and interests. Do you want to continue?"
@@ -34,7 +43,9 @@ async function updateProfile() {
 
         if (res.ok) {
             alert("Profile updated!");
-            window.location.href = "partner_finder.html";
+            if (available) {
+                window.location.href = "partner_finder.html";
+            }
         } else {
             alert("Update failed.");
         }

@@ -3,16 +3,32 @@ const router = express.Router();
 const Doctor = require('../models/doctor');
 const Place = require('../models/place');
 const Session = require('../models/session');
-
+const { Op } = require('sequelize');
 
 // GET doctors by name query
 router.get('/searchDoctor', async (req, res) => {
+  const name = req.query.name;
+
+  // check if name is provided
+  if (!name) {
+    return res.status(400).json({ success: false, msg: 'Enter doctor name' });
+  }
+
   try {
-    const name = req.query.name;
-    const doctor = await Doctor.findOne({ where: { name } });
-    res.json(doctors);
+    const doctor = await Doctor.findOne({
+      where: {
+        name: { [Op.like]: `%${name}%` },
+      }
+    });
+
+    if (doctor) {
+      res.json({ success: true, doctor });
+    } else {
+      res.json({ success: false, msg: 'Doctor not found' });
+    }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Database error:', err);
+    res.status(500).json({ success: false, msg: 'Server error' });
   }
 });
 
@@ -41,17 +57,29 @@ router.get('/searchClassroom', async (req, res) => {
     res.status(500).json({ success: false, msg: 'Server error' });
   }
 });
-
 // GET sessions by name query
 router.get('/searchSession', async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    return res.status(400).json({ success: false, msg: 'Missing name or type' });
+  }
+
   try {
-    const name = req.query.name || '';
     const sessions = await Session.findAll({
-      where: { name: { [require('sequelize').Op.like]: `%${name}%` } }
+      where: {
+        name: { [Op.like]: `%${name}%` },
+      }
     });
-    res.json(sessions);
+
+    if (sessions.length > 0) {
+      res.json({ success: true, sessions });
+    } else {
+      res.json({ success: false, msg: 'No matching sessions found' });
+    }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Database error:', err);
+    res.status(500).json({ success: false, msg: 'Server error' });
   }
 });
 
