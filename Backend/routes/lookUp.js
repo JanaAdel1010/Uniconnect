@@ -6,7 +6,7 @@ const Session = require('../models/session');
 
 
 // GET doctors by name query
-router.get('/doctor', async (req, res) => {
+router.get('/searchDoctor', async (req, res) => {
   try {
     const name = req.query.name || '';
     const doctors = await Doctor.findAll({
@@ -45,7 +45,7 @@ router.get('/searchClassroom', async (req, res) => {
 });
 
 // GET sessions by name query
-router.get('/session', async (req, res) => {
+router.get('/searchSession', async (req, res) => {
   try {
     const name = req.query.name || '';
     const sessions = await Session.findAll({

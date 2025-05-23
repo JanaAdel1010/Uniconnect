@@ -19,6 +19,13 @@ h2 {
     margin-bottom: 20px;
 }
 
+.warning {
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 label {
     font-weight: bold;
     display: block;
@@ -31,10 +38,16 @@ input[type="text"] {
     margin-top: 5px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.checkbox-label {
+    margin-top: 20px;
+    font-weight: normal;
 }
 
 button {
-    margin-top: 20px;
+    margin-top: 25px;
     width: 100%;
     padding: 12px;
     background-color: #2357f2;
@@ -47,17 +60,4 @@ button {
 
 button:hover {
     background-color: #1d4ed8;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-li {
-    background: #e9efec;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 6px;
 }

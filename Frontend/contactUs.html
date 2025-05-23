@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #a18cd1, #fbc2eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .team-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .team-container h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .member {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .member img {
+            width: 100%;
+            border-radius: 50%;
+            max-width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .member h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .member p {
+            font-size: 14px;
+            color: #666;
+            word-break: break-all;
+        }
+
+        .back-button {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 2px 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="team-container">
+        <h1>Contact Our Team</h1>
+        <div class="team-grid">
+            <div class="member">
+                <a href="https://www.linkedin.com/in/laila-kassem-a57054290/" target="_blank">
+                    <img src="laila.png" alt="Team Member 1">
+                </a>
+                <h3>Laila Kassem</h3>
+                <p>lailakassem03@gmail.com</p>
+            </div>
+            <div class="member">
+                <a href="https://www.linkedin.com/in/jana-adelx10" target="_blank">
+                    <img src="jana.JPG" alt="Team Member 2">
+                </a>
+                <h3>Jana Adel</h3>
+                <p>Janaadel2000@gmail.com</p>
+            </div>
+            <div class="member">
+                <a href="https://www.linkedin.com/in/shahd-sherif-9b93a5310/" target="_blank">
+                    <img src="shahd.png" alt="Team Member 3">
+                </a>
+                <h3>Shahd Sherif</h3>
+                <p>shahd@gmail.com</p>
+            </div>
+            <div class="member">
+                <a href="https://www.linkedin.com/in/nour-nasr-527ba8287/" target="_blank">
+                    <img src="nour.JPG" alt="Team Member 4">
+                </a>
+                <h3>Nour Nasr</h3>
+                <p>nournasr@gmail.com</p>
+            </div>
+        </div>
+        <button onclick="history.back()" class="back-button">Back</button>
+    </div>
+</body>
+
+</html>

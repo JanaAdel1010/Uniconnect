@@ -1,7 +1,11 @@
 async function findPartner() {
     let skillsInput = document.getElementById("skills").value.trim();
     let interestsInput = document.getElementById("interests").value.trim();
-
+    const excludeEmail = localStorage.getItem("userEmail");
+    if (!excludeEmail) {
+        alert("User email not found. Please log in first.");
+        return;
+    }
     if ((skillsInput === "" || skillsInput.toLowerCase() !== "none" && skillsInput === "") &&
         (interestsInput === "" || interestsInput.toLowerCase() !== "none" && interestsInput === "")) {
         alert("Please enter skills and interests, or type 'none' to select all.");
@@ -26,7 +30,7 @@ async function findPartner() {
         const response = await fetch('http://localhost:5000/api/partnerFinder/find-partners', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ skills, interests })
+            body: JSON.stringify({ skills, interests, excludeEmail })
         });
 
         if (!response.ok) throw new Error('Request failed');

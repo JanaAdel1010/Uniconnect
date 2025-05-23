@@ -55,7 +55,7 @@ function searchSession() {
   }
 
   // If valid, proceed to fetch API
-  const apiUrl = `http://localhost:5000/api/lookup/session?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
+  const apiUrl = `http://localhost:3300/api/lookup/searchSession?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -86,7 +86,7 @@ function searchClassroom() {
     return;
   }
 
-  fetch(`http://localhost:5000/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
+  fetch(`http://localhost:3300/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -115,7 +115,7 @@ function searchDoctor() {
     return;
   }
 
-  fetch(`http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
+  fetch(`http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -132,58 +132,6 @@ function searchDoctor() {
     .catch(error => {
       console.error("Error fetching doctor:", error);
     });
-}
-
-// Timetable
-function showSessionsForTimetable() {
-  let list = '';
-  sessions.sort((a, b) => a.type.localeCompare(b.type));
-  sessions.forEach((s, index) => {
-    list += `<input type="checkbox" id="session${index}" value="${escapeHTML(s.name)}"> ${escapeHTML(s.name)} (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
-  });
-  document.getElementById('sessionList').innerHTML = list;
-}
-
-function saveTimetable() {
-  let selected = [];
-  sessions.forEach((s, index) => {
-    if (document.getElementById(`session${index}`).checked) {
-      selected.push(s);
-    }
-  });
-  localStorage.setItem('myTimetable', JSON.stringify(selected));
-  displayMyTimetable();
-}
-
-function displayMyTimetable() {
-  try {
-    let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
-    if (!Array.isArray(timetable)) throw new Error("Invalid timetable format");
-
-    let out = '';
-    timetable.forEach(s => {
-      out += `<strong>${escapeHTML(s.name)}</strong> (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
-    });
-    document.getElementById('myTimetable').innerHTML = out;
-    showNextSession();
-  } catch (error) {
-    console.error("Error reading timetable:", error);
-    document.getElementById('myTimetable').innerHTML = "Unable to load timetable data.";
-  }
-}
-
-function clearTimetable() {
-  localStorage.removeItem('myTimetable');
-  displayMyTimetable();
-}
-
-function showNextSession() {
-  let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
-  if (timetable.length === 0) {
-    document.getElementById('nextSession').innerHTML = "No upcoming sessions.";
-    return;
-  }
-  document.getElementById('nextSession').innerHTML = `Next: ${escapeHTML(timetable[0].name)} at ${escapeHTML(timetable[0].time)}`;
 }
 
 function displayClassroom(classroom) {

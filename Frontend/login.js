@@ -22,7 +22,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     // ✅ Save JWT token
     localStorage.setItem('token', data.token);
-
+    localStorage.setItem('userEmail', email);
     // ✅ Redirect after success
     window.location.href = 'trial.html';
   } catch (error) {
