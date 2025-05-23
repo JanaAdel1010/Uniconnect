@@ -21,7 +21,15 @@ const Session = sequelize.define('Session', {
   time: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
+  Instructor: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  classroom: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 });
 
 module.exports = Session;
