@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Personal Timetable</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>Create Your Personal Timetable</h1>
 
-  <div id="sessionList"></div>
-  <button onclick="saveTimetable()">Save My Timetable</button>
-  <button onclick="window.location.href='campus_map.html'">Back to Home</button>
+<body>
+  <div class="container">
+    <h1>Create Your Personal Timetable</h1>
+    <div id="sessionList"></div>
+    <button onclick="saveTimetable()">Save My Timetable</button>
+  </div>
+  <button class="back-button" onclick="window.location.href='campus_map.html'">Back to Home</button>
 
   <h2>My Timetable:</h2>
   <div id="myTimetable"></div>
@@ -21,4 +24,5 @@
     displayMyTimetable();
   </script>
 </body>
+
 </html>

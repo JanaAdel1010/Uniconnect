@@ -49,7 +49,7 @@ function searchSession() {
       if (results.length > 0) {
         let html = `<h3>${type ? `${escapeHTML(type)}s` : 'Sessions'} for ${escapeHTML(subject)}</h3>`;
         results.forEach(s => {
-          html += `<strong>${escapeHTML(s.name)}</strong><br>📍 ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br>🕒 ${escapeHTML(s.time)}<br><br>`;
+          html += `<strong>${escapeHTML(s.name)}</strong><br> ${escapeHTML(s.building)}, ${escapeHTML(s.floor)}<br> ${escapeHTML(s.time)}<br><br>`;
         });
         resultDiv.innerHTML = html;
       } else {
