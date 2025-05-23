@@ -5,7 +5,7 @@ const Doctor = require('../models/doctor');
 
 jest.mock('../models/doctor');
 
-describe('lookupRoutes - GET /doctors', () => {
+describe('lookupRoutes - GET /searchDoctor', () => {
     let app;
 
     beforeEach(() => {
@@ -23,7 +23,7 @@ describe('lookupRoutes - GET /doctors', () => {
 
         Doctor.findAll.mockResolvedValue(fakeDoctors);
 
-        const response = await request(app).get('/api/doctors');
+        const response = await request(app).get('/api/searchDoctor');
 
         expect(Doctor.findAll).toHaveBeenCalledTimes(1);
         expect(response.status).toBe(200);
@@ -33,7 +33,7 @@ describe('lookupRoutes - GET /doctors', () => {
     it('handles errors and returns 500 status', async () => {
         Doctor.findAll.mockRejectedValue(new Error('DB Error'));
 
-        const response = await request(app).get('/api/doctors');
+        const response = await request(app).get('/api/searchDoctor');
 
         expect(response.status).toBe(500);
         expect(response.body).toEqual({ error: 'Internal server error' });
