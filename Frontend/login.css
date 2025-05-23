@@ -76,15 +76,22 @@ button[type="submit"]:hover {
   background-color: #1d4ed8;
 }
 
-.signupLink {
+.signupLink,
+.contactLink {
   text-align: center;
   font-size: 12px;
   margin-top: 5px;
 }
 
-.signupLink a {
+.signupLink a,
+.contactLink a {
   color: #2357f2;
   text-decoration: none;
+  font-size: 12px;
+}
+
+.contactLink {
+  font-size: 15px;
 }
 
 .loginPic {
@@ -95,7 +102,7 @@ button[type="submit"]:hover {
   border-radius: 12px;
 }
 
-.container-register{
+.container-register {
   align-items: center;
   display: flex;
   width: 90%;

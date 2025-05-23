@@ -134,58 +134,6 @@ function searchDoctor() {
     });
 }
 
-// Timetable
-function showSessionsForTimetable() {
-  let list = '';
-  sessions.sort((a, b) => a.type.localeCompare(b.type));
-  sessions.forEach((s, index) => {
-    list += `<input type="checkbox" id="session${index}" value="${escapeHTML(s.name)}"> ${escapeHTML(s.name)} (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
-  });
-  document.getElementById('sessionList').innerHTML = list;
-}
-
-function saveTimetable() {
-  let selected = [];
-  sessions.forEach((s, index) => {
-    if (document.getElementById(`session${index}`).checked) {
-      selected.push(s);
-    }
-  });
-  localStorage.setItem('myTimetable', JSON.stringify(selected));
-  displayMyTimetable();
-}
-
-function displayMyTimetable() {
-  try {
-    let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
-    if (!Array.isArray(timetable)) throw new Error("Invalid timetable format");
-
-    let out = '';
-    timetable.forEach(s => {
-      out += `<strong>${escapeHTML(s.name)}</strong> (${escapeHTML(s.type)}) - ${escapeHTML(s.time)}<br>`;
-    });
-    document.getElementById('myTimetable').innerHTML = out;
-    showNextSession();
-  } catch (error) {
-    console.error("Error reading timetable:", error);
-    document.getElementById('myTimetable').innerHTML = "Unable to load timetable data.";
-  }
-}
-
-function clearTimetable() {
-  localStorage.removeItem('myTimetable');
-  displayMyTimetable();
-}
-
-function showNextSession() {
-  let timetable = JSON.parse(localStorage.getItem('myTimetable')) || [];
-  if (timetable.length === 0) {
-    document.getElementById('nextSession').innerHTML = "No upcoming sessions.";
-    return;
-  }
-  document.getElementById('nextSession').innerHTML = `Next: ${escapeHTML(timetable[0].name)} at ${escapeHTML(timetable[0].time)}`;
-}
-
 function displayClassroom(classroom) {
   const resultDiv = document.getElementById("output");
   resultDiv.innerHTML = `<h3>Classroom Info</h3>
