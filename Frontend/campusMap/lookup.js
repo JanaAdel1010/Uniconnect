@@ -1,20 +1,3 @@
-// Sample data
-const sessions = [
-  { name: "CS101-SectionA", type: "Section", building: "Main Building", floor: "2nd Floor", time: "Sun 10AM-12PM" },
-  { name: "CS101-Lecture", type: "Lecture", building: "Main Building", floor: "Conf Hall", time: "Mon 1PM-3PM" },
-  { name: "CS101-Lab", type: "Lab", building: "Lab Building", floor: "Ground Floor", time: "Tue 2PM-4PM" }
-];
-
-const classrooms = [
-  { name: "CENG 204", building: "Engineering Building", floor: "2nd Floor" },
-  { name: "CS101", building: "Main Building", floor: "1st Floor" }
-];
-
-const doctors = [
-  { name: "Dr. Nour Ali", building: "Admin Building", floor: "3rd Floor", office: "305", hours: "Sun-Tue 10AM-12PM" },
-  { name: "Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
-];
-
 //Remove special characters from the name
 function correctInput(input) {
   return input.replace(/[^a-zA-Z0-9\s.]/g, ""); // allow letters, numbers, spaces, and dots
@@ -22,11 +5,12 @@ function correctInput(input) {
 
 // to display as text not run
 function escapeHTML(str) {
-  return str.replace(/[&<>"']/g, function (match) {
-    const escape = { '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;" };
-    return escape[match];
-  });
+  if (typeof str !== 'string') return ''; // ✅ prevent errors on null/undefined
+  return str.replace(/[&<>"']/g, match => ({
+    '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;", "'": "&#039;"
+  }[match]));
 }
+
 
 // Session search
 function searchSession() {
@@ -142,10 +126,14 @@ function displayClassroom(classroom) {
 }
 
 function displayDoctor(doctor) {
-  const resultDiv = document.getElementById("output");
-  resultDiv.innerHTML = `<h3>Doctor Info</h3>
-    <strong>${escapeHTML(doctor.name)}</strong><br>
-     ${escapeHTML(doctor.building)}, ${escapeHTML(doctor.floor)}<br>
-    Office: ${escapeHTML(doctor.office)}<br>
-    Hours: ${escapeHTML(doctor.hours)}<br>`;
+  const output = document.getElementById('output');
+  if (!doctor || !doctor.name) {
+    output.innerHTML = "Invalid doctor data.";
+    return;
+  }
+  output.innerHTML = `
+    <h3>${escapeHTML(doctor.name)}</h3>
+    ${escapeHTML(doctor.building)}, ${escapeHTML(doctor.floor)}<br>
+    Hours: ${escapeHTML(doctor.hours)}<br>
+  `;
 }
