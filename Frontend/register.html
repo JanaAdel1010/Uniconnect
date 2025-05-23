@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <script defer src="register.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    form { max-width: 400px; margin: auto; padding: 20px; background: #fff; border-radius: 5px; }
+    input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
+    button { padding: 10px; width: 100%; background: #6200ea; color: white; border: none; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <h2>Register New User</h2>
+
+  <form id="registerForm">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+    <textarea id="interests" placeholder="Interests (comma separated)"></textarea>
+    <button type="submit">Register</button>
+  </form>
+
+</body>
+</html>
