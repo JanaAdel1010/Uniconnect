@@ -9,12 +9,21 @@ router.post('/', upload.single('image'), async (req, res) => {
     const { name, description, phone, lostDate, extra } = req.body;
     const image = req.file ? '/uploads/' + req.file.filename : '';
 
-    const item = await LostItem.create({ name, description, phone, image });
+    const item = await LostItem.create({
+      name,
+      description,
+      phone,
+      image,
+      lostDate,
+      extra
+    });
+
     res.json(item);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // GET: List all lost items
 router.get('/', async (req, res) => {

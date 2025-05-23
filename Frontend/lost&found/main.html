@@ -3,28 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Success & Error Cards</title>
+  <title>Lost and found </title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="card-container">
-    <!-- Success Card -->
-    <div class="card found">
-      <img src="./images/found.jpg" alt="Found Item" class="image" />
-      <h2>I FOUND IT</h2>
-      <br />
-      <button onclick="handleFound()">Lets Report it</button>
-    </div>
+  <div class="main-container">
+    <h1>WAY TO FIND LOST OBJECTS</h1>
+    <div class="card-container">
+      <!-- Success Card -->
+      <div class="card found">
+        <img src="./images/found.jpg" alt="Found Item" class="image" />
+        <h2>I FOUND IT</h2>
+        <br />
+        <button onclick="handleFound()">Lets Report it</button>
+      </div>
 
-    <!-- Error Card -->
-    <div class="card lost">
-      <img src="./images/lost.jpg" alt="Lost Item" class="image" />
-      <h2>I LOST IT</h2>
-      <br />
-      <button onclick="handleLost()">Lets Find it</button>
+      <!-- Error Card -->
+      <div class="card lost">
+        <img src="./images/lost.jpg" alt="Lost Item" class="image" />
+        <h2>I LOST IT</h2>
+        <br />
+        <button onclick="handleLost()">Lets Find it</button>
+      </div>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>

@@ -24,6 +24,7 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
+
 router.get('/', async (req, res) => {
   try {
     const items = await FoundItem.findAll();

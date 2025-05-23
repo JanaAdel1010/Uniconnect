@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use(cors());
 const path = require('path');
-app.use(express.static(path.join(__dirname, 'campusMap')));
+app.use(express.static(path.join(__dirname, '../Frontend/campusMap')));
 
 // Use auth routes under /api/auth
 app.use('/api/auth', authRoutes);
