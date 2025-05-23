@@ -1,54 +1,41 @@
-const request = require('supertest');
 const express = require('express');
+const request = require('supertest');
 const lookupRoutes = require('../routes/lookUp');
 const Doctor = require('../models/doctor');
-const Place = require('../models/place');
-const Session = require('../models/session');
 
 jest.mock('../models/doctor');
-jest.mock('../models/place');
-jest.mock('../models/session');
 
-const app = express();
-app.use(express.json());
-app.use('/api/lookup', lookupRoutes);
+describe('lookupRoutes - GET /doctors', () => {
+    let app;
 
-describe('Lookup API Routes', () => {
-
-  describe('GET /searchDoctor', () => {
-    it('should return doctor if found', async () => {
-      Doctor.findOne.mockResolvedValue({ name: 'Dr. Laila Kassem', building: 'A', floor: '2' });
-      const res = await request(app).get('/api/lookup/searchDoctor?name=Dr.%20Laila%20Kassem');
-      expect(res.statusCode).toBe(200);
-      expect(res.body.success).toBe(true);
-      expect(res.body.doctor.name).toBe('Dr. Laila Kassem');
+    beforeEach(() => {
+        jest.clearAllMocks();
+        app = express();
+        app.use(express.json());
+        app.use('/api', lookupRoutes);
     });
 
-    it('should return 400 if no name query', async () => {
-      const res = await request(app).get('/api/lookup/searchDoctor');
-      expect(res.statusCode).toBe(400);
-    });
-  });
+    it('returns list of doctors', async () => {
+        const fakeDoctors = [
+            { id: 1, name: 'Dr. Alice' },
+            { id: 2, name: 'Dr. Bob' }
+        ];
 
-  describe('GET /searchClassroom', () => {
-    it('should return classroom if found', async () => {
-      Place.findOne.mockResolvedValue({ name: 'C301', building: 'Main', floor: '3' });
-      const res = await request(app).get('/api/lookup/searchClassroom?name=C301');
-      expect(res.statusCode).toBe(200);
-      expect(res.body.success).toBe(true);
-      expect(res.body.classroom.name).toBe('C301');
-    });
-  });
+        Doctor.findAll.mockResolvedValue(fakeDoctors);
 
-  describe('GET /searchSession', () => {
-    it('should return sessions if found', async () => {
-      Session.findAll.mockResolvedValue([
-        { name: 'CV', type: 'Lecture', building: 'B', floor: '1', time: '10:00 AM' }
-      ]);
-      const res = await request(app).get('/api/lookup/searchSession?name=CV');
-      expect(res.statusCode).toBe(200);
-      expect(res.body.success).toBe(true);
-      expect(res.body.sessions.length).toBe(1);
+        const response = await request(app).get('/api/doctors');
+
+        expect(Doctor.findAll).toHaveBeenCalledTimes(1);
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(fakeDoctors);
     });
-  });
+
+    it('handles errors and returns 500 status', async () => {
+        Doctor.findAll.mockRejectedValue(new Error('DB Error'));
+
+        const response = await request(app).get('/api/doctors');
+
+        expect(response.status).toBe(500);
+        expect(response.body).toEqual({ error: 'Internal server error' });
+    });
 });
