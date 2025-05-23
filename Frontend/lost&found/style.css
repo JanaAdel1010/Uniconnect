@@ -8,14 +8,37 @@ body {
   height: 100vh;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+h1 {
+  margin: 0;
+  color: #333;
+  font-size: 44px;
+  text-align: center;
+  font-weight: 1000;
+}
+
+h2 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+  text-align: center;
+  font-weight: 1000;
+}
+
 .card-container {
   display: flex;
   gap: 30px;
 }
 
 .card {
-  width: 250px;
-  height: 200fr;
+  width: 320px;
+  height: 260px;
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -33,7 +56,7 @@ body {
 }
 
 .card p {
-  font-size: 14px;
+  font-size: 20px;
   color: #666;
   margin-bottom: 20px;
 }
@@ -47,11 +70,11 @@ body {
 }
 
 .card.found button {
-  background: #2b80ff;
+  background: #3fb17e;
 }
 
 .card.lost button {
-  background: #ff3c3c;
+  background: #3fb17e;
 }
 
 button {
@@ -60,17 +83,18 @@ button {
   padding: 10px 18px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s ease;
+  font-size: 18px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 button:hover {
-  opacity: 0.9;
+  transform: scale(1.1); /* Grows the button */
+  opacity: 0.9;          /* Optional: adds a subtle fade */
 }
 
 .image{
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 20px;
     object-fit: cover;
 }
