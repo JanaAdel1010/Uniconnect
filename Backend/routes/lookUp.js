@@ -58,14 +58,25 @@ router.get('/searchClassroom', async (req, res) => {
 });
 
 // GET sessions by name query
-router.get('/session', async (req, res) => {
+router.get('/searchSession', async (req, res) => {
+  const { name, type } = req.query;
+  const { Op } = require('sequelize');
+
+  if (!name || !type) {
+    return res.status(400).json({ success: false, msg: 'Missing name or type' });
+  }
+
   try {
-    const name = req.query.name || '';
     const sessions = await Session.findAll({
-      where: { name: { [require('sequelize').Op.like]: `%${name}%` } }
+      where: {
+        name: { [Op.like]: `%${name}%` },
+        type: { [Op.like]: `%${type}%` }
+      }
     });
+
     res.json(sessions);
   } catch (err) {
+    console.error('Database error:', err);
     res.status(500).json({ error: err.message });
   }
 });
