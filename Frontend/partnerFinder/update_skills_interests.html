@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Update Skills and Interests</title>
+    <link rel="stylesheet" href="update_profile.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Update Your Skills & Interests</h2>
+
+        <div class="warning" id="warningMessage">
+            ⚠️ Any previously saved skills or interests will be replaced!
+        </div>
+
+        <label for="skills">Skills (Comma-Separated):</label>
+        <input type="text" id="skills" placeholder="e.g., Java, Python" />
+
+        <label for="interests">Interests (Comma-Separated):</label>
+        <input type="text" id="interests" placeholder="e.g., Web Dev, AI" />
+
+        <label class="checkbox-label">
+            <input type="checkbox" id="availableCheckbox" />
+            I am available for a partner
+        </label>
+
+        <button onclick="updateProfile()">Save and Find Partners</button>
+    </div>
+
+    <script src="update_profile.js"></script>
+</body>
+</html>

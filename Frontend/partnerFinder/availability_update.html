@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Update Availability</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b9d6db;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        h2 {
+            margin-bottom: 4rem;
+        }
+
+        .image-button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .image-button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-button {
+            width: 220px;
+            height: 220px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .image-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-button:hover {
+            transform: scale(1.05);
+        }
+
+        .button-label {
+            margin-top: 0.7rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            width: 220px;
+        }
+
+        @media (max-width: 600px) {
+            .image-button-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Choose Your Availability Status</h2>
+
+    <div class="image-button-container">
+        <div class="image-button-wrapper">
+            <button class="image-button" onclick="setAvailability(false)">
+                <img src="partnerFound.png" alt="Not Available" />
+            </button>
+            <div class="button-label">Partner Found<br>Not Available Any More</div>
+        </div>
+
+        <div class="image-button-wrapper">
+            <button class="image-button" onclick="setAvailability(true)">
+                <img src="searching.png" alt="Searching" />
+            </button>
+            <div class="button-label">Searching for Partner</div>
+        </div>
+    </div>
+
+    <script src="availability.js"></script>
+</body>
+
+</html>

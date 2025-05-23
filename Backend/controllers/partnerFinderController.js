@@ -1,12 +1,17 @@
 const User = require('../models/User');
 
 exports.findPartners = async (req, res) => {
-    let { skills = [], interests = [] } = req.body;
+    console.log(req.body);
+    let { skills = [], interests = [], excludeEmail } = req.body;
 
     skills = skills.map(s => s.trim().toLowerCase());
     interests = interests.map(i => i.trim().toLowerCase());
     try {
-        const users = await User.findAll();
+        let users = await User.findAll({ where: { available: true } });
+        console.log('Exclude email:', excludeEmail);
+        if (excludeEmail) {
+            users = users.filter(user => user.email !== excludeEmail);
+        }
         const noSkillFilter = skills.length === 1 && skills[0] === 'none';
         const noInterestFilter = interests.length === 1 && interests[0] === 'none';
 
