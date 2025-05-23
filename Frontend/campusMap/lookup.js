@@ -17,7 +17,7 @@ const doctors = [
 
 //Remove special characters from the name
 function correctInput(input) {
-  return input.replace(/[^a-zA-Z0-9\s]/g, ""); // only allow letters, numbers, and spaces
+  return input.replace(/[^a-zA-Z0-9\s.]/g, ""); // allow letters, numbers, spaces, and dots
 }
 
 // to display as text not run
