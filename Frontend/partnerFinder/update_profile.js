@@ -9,6 +9,15 @@ async function updateProfile() {
         return;
     }
 
+    if (skillsInput === "") {
+        alert("You must add at least 1 skill.");
+        return;
+    }
+
+    if (interestsInput === "") {
+        alert("You must add at least 1 interest.");
+        return;
+    }
 
     const confirmReplace = confirm(
         "This will replace any existing skills and interests. Do you want to continue?"
