@@ -9,12 +9,12 @@ async function updateProfile() {
         return;
     }
 
-    if (skillsInput === "") {
+    if (!skillsInput) {
         alert("You must add at least 1 skill.");
         return;
     }
 
-    if (interestsInput === "") {
+    if (!interestsInput) {
         alert("You must add at least 1 interest.");
         return;
     }
@@ -43,7 +43,9 @@ async function updateProfile() {
 
         if (res.ok) {
             alert("Profile updated!");
-            window.location.href = "partner_finder.html";
+            if (available) {
+                window.location.href = "partner_finder.html";
+            }
         } else {
             alert("Update failed.");
         }
