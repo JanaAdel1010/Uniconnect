@@ -68,7 +68,7 @@ router.get('/searchSession', async (req, res) => {
   try {
     const sessions = await Session.findAll({
       where: {
-        name: { [Op.like]: `%${name}%` },
+        name: { [Op.like]: `%${John}%` },
       }
     });
 
