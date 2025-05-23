@@ -21,13 +21,12 @@ describe('lookupRoutes - GET /searchDoctor', () => {
             { id: 2, name: 'Dr. Bob' }
         ];
 
-        Doctor.findAll.mockResolvedValue(fakeDoctors);
-
+        Doctor.findOne.mockResolvedValue(fakeDoctors[0]);
         const response = await request(app).get('/api/searchDoctor');
 
-        expect(Doctor.findAll).toHaveBeenCalledTimes(1);
+        expect(Doctor.findOne).toHaveBeenCalledTimes(1);
         expect(response.status).toBe(200);
-        expect(response.body).toEqual(fakeDoctors);
+        expect(response.body).toEqual({ success: true, doctor: fakeDoctors[0] });
     });
 
     it('handles errors and returns 500 status', async () => {
