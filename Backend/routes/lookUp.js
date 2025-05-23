@@ -3,13 +3,13 @@ const router = express.Router();
 const Doctor = require('../models/doctor');
 const Place = require('../models/place');
 const Session = require('../models/session');
-
 const { Op } = require('sequelize');
 
 // GET doctors by name query
 router.get('/searchDoctor', async (req, res) => {
   const name = req.query.name;
 
+  // check if name is provided
   if (!name) {
     return res.status(400).json({ success: false, msg: 'Enter doctor name' });
   }
