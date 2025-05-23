@@ -12,8 +12,11 @@ console.log("Does .env exist?", fs.existsSync('.env'));
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-dotenv.config();
+//dotenv.config();
+dotenv.config({ path: __dirname + '/.env' });
 console.log("Connecting to MySQL as:", process.env.DB_USER);
+const app = express();
+
 
 
 const sequelize = require('./config/db');
@@ -21,7 +24,6 @@ const authRoutes = require('./routes/auth');
 const profileSetupRoutes = require('./routes/profileSetup');
 const partnerRoutes = require('./routes/partner');
 
-const app = express();
 const Place = require('./models/place');
 const Doctor = require('./models/doctor');
 
@@ -32,6 +34,9 @@ app.use(express.json());
 app.use(cors());
 const path = require('path');
 app.use(express.static(path.join(__dirname, '../Frontend/campusMap')));
+
+const matchRoutes = require('./routes/match');
+app.use('/api/match', matchRoutes);
 
 // Use auth routes under /api/auth
 app.use('/api/auth', authRoutes);

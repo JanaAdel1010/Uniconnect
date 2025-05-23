@@ -12,12 +12,12 @@ const classrooms = [
 
 const doctors = [
   { name: "Dr. Nour Ali", building: "Admin Building", floor: "3rd Floor", office: "305", hours: "Sun-Tue 10AM-12PM" },
-  { name: "Dr. Laila Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
+  { name: "Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
 ];
 
 //Remove special characters from the name
 function correctInput(input) {
-  return input.replace(/[^a-zA-Z0-9\s]/g, ""); // only allow letters, numbers, and spaces
+  return input.replace(/[^a-zA-Z0-9\s.]/g, ""); // allow letters, numbers, spaces, and dots
 }
 
 // to display as text not run
@@ -55,7 +55,7 @@ function searchSession() {
   }
 
   // If valid, proceed to fetch API
-  const apiUrl = `http://localhost:5000/api/lookup/session?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
+  const apiUrl = `http://localhost:5000/api/lookup/searchSession?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -114,7 +114,7 @@ function searchDoctor() {
     resultDiv.innerHTML = "Please enter a doctor's name.";
     return;
   }
-
+  console.log(`Requesting: http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`);
   fetch(`http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
