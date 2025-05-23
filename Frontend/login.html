@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login | Student Portal</title>
-  <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UNICONNECT</title>
+  <link rel="stylesheet" href="login.css" />
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-left">
-      <h2>Login</h2>
-      <p>Enter your account details</p>
-      <form>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <a href="#">Forgot Password?</a>
-        <button type="submit">Login</button>
-      </form>
-      <p class="signup-text">Don’t have an account? <a href="#">Sign up</a></p>
+  <div class="container">
+    <div class="left">
+        <img src="loginpic.jpeg" alt="Login Picture" class="loginPic">
     </div>
-    <div class="login-right">
-      <h1>Welcome to<br>student portal</h1>
-      <p>Login to access your account</p>
-      <!-- you can replace below div with your illustration -->
-      <div class="illustration"></div>
+
+    <div class="right">
+      <h2>UNICONNECT</h2>
+      <p>Hey enter your details to sign in to your account</p>
+
+      <form>
+        <input type="text" placeholder="Enter your username/email" required>
+        <input type="password" placeholder="Enter your password" required>
+        <button type="submit">Login in</button>
+      </form>
+      <div class="signupLink">
+        Don't have an account? <a href="#">Sign up</a>
+      </div>
     </div>
   </div>
 </body>
