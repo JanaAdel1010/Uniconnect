@@ -8,10 +8,8 @@ const Session = require('../models/session');
 // GET doctors by name query
 router.get('/searchDoctor', async (req, res) => {
   try {
-    const name = req.query.name || '';
-    const doctors = await Doctor.findAll({
-      where: { name: { [require('sequelize').Op.like]: `%${name}%` } }
-    });
+    const name = req.query.name;
+    const doctor = await Doctor.findOne({ where: { name } });
     res.json(doctors);
   } catch (err) {
     res.status(500).json({ error: err.message });

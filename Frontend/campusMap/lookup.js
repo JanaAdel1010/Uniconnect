@@ -114,7 +114,7 @@ function searchDoctor() {
     resultDiv.innerHTML = "Please enter a doctor's name.";
     return;
   }
-
+  console.log(`Requesting: http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`);
   fetch(`http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
