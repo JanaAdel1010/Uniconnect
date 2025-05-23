@@ -14,14 +14,14 @@ router.get('/searchDoctor', async (req, res) => {
   }
 
   try {
-    const Doctor = await Place.findOne({
+    const doctor = await Doctor.findOne({
       where: {
         name: name
       }
     });
 
-    if (Doctor) {
-      res.json({ success: true, Doctor });
+    if (doctor) {
+      res.json({ success: true, doctor });
     } else {
       res.json({ success: false, msg: 'Doctor not found' });
     }
