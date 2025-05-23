@@ -1,3 +1,11 @@
+process.on('uncaughtException', err => {
+  console.error('UNCAUGHT EXCEPTION:', err);
+});
+
+process.on('unhandledRejection', err => {
+  console.error('UNHANDLED PROMISE REJECTION:', err);
+});
+
 const fs = require('fs');
 console.log("Does .env exist?", fs.existsSync('.env'));
 
@@ -10,7 +18,7 @@ console.log("Connecting to MySQL as:", process.env.DB_USER);
 
 const sequelize = require('./config/db');
 const authRoutes = require('./routes/auth');
-
+const profileSetupRoutes = require('./routes/profileSetup');
 const partnerRoutes = require('./routes/partner');
 
 const app = express();
@@ -27,7 +35,7 @@ app.use(express.static(path.join(__dirname, '../Frontend/campusMap')));
 
 // Use auth routes under /api/auth
 app.use('/api/auth', authRoutes);
-
+app.use('/api/profileSetup', profileSetupRoutes);
 app.use('/api/partnerFinder', partnerRoutes);
 
 // Serve static files from the uploads directory

@@ -20,6 +20,10 @@ const User = sequelize.define('User', {
   },
   interests: {
     type: DataTypes.STRING
+  },
+  available: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 
