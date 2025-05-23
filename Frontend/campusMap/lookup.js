@@ -12,7 +12,7 @@ const classrooms = [
 
 const doctors = [
   { name: "Dr. Nour Ali", building: "Admin Building", floor: "3rd Floor", office: "305", hours: "Sun-Tue 10AM-12PM" },
-  { name: "Dr. Laila Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
+  { name: "Kassem", building: "Science Building", floor: "2nd Floor", office: "212", hours: "Mon-Wed 1PM-3PM" }
 ];
 
 //Remove special characters from the name
@@ -55,7 +55,7 @@ function searchSession() {
   }
 
   // If valid, proceed to fetch API
-  const apiUrl = `http://localhost:3300/api/lookup/searchSession?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
+  const apiUrl = `http://localhost:5000/api/lookup/searchSession?name=${encodeURIComponent(subject)}&type=${encodeURIComponent(type)}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -86,7 +86,7 @@ function searchClassroom() {
     return;
   }
 
-  fetch(`http://localhost:3300/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
+  fetch(`http://localhost:5000/api/lookup/searchClassroom?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -114,8 +114,8 @@ function searchDoctor() {
     resultDiv.innerHTML = "Please enter a doctor's name.";
     return;
   }
-  console.log(`Requesting: http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`);
-  fetch(`http://localhost:3300/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
+  console.log(`Requesting: http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`);
+  fetch(`http://localhost:5000/api/lookup/searchDoctor?name=${encodeURIComponent(name)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");

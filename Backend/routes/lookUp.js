@@ -7,12 +7,27 @@ const Session = require('../models/session');
 
 // GET doctors by name query
 router.get('/searchDoctor', async (req, res) => {
+  const name = req.query.name;
+
+  if (!name) {
+    return res.status(400).json({ success: false, msg: 'Enter doctor name' });
+  }
+
   try {
-    const name = req.query.name;
-    const doctor = await Doctor.findOne({ where: { name } });
-    res.json(doctors);
+    const Doctor = await Place.findOne({
+      where: {
+        name: name
+      }
+    });
+
+    if (Doctor) {
+      res.json({ success: true, Doctor });
+    } else {
+      res.json({ success: false, msg: 'Doctor not found' });
+    }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Database error:', err);
+    res.status(500).json({ success: false, msg: 'Server error' });
   }
 });
 
@@ -43,7 +58,7 @@ router.get('/searchClassroom', async (req, res) => {
 });
 
 // GET sessions by name query
-router.get('/searchSession', async (req, res) => {
+router.get('/session', async (req, res) => {
   try {
     const name = req.query.name || '';
     const sessions = await Session.findAll({
