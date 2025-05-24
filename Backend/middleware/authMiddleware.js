@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
   try {
     const actualToken = token.startsWith('Bearer ') ? token.slice(7) : token;
     const decoded = jwt.verify(actualToken, process.env.JWT_SECRET);
-    req.user = decoded; // Attach decoded user info (id) to request
+    req.user = decoded; // Attach decoded user info to request
     next();
   } catch (err) {
     res.status(401).json({ msg: 'Token is not valid' });

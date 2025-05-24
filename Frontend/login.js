@@ -1,7 +1,7 @@
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  // 🔧 Get email and password from form inputs
+  // Get email and password from form inputs
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
 
@@ -11,7 +11,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email, password })  // ✅ Send JSON body
+      body: JSON.stringify({ email, password })  //Send JSON body
     });
 
     const data = await response.json();
@@ -20,10 +20,10 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       throw new Error(data.msg || 'Login failed');
     }
 
-    // ✅ Save JWT token
+    //Save JWT token
     localStorage.setItem('token', data.token);
     localStorage.setItem('userEmail', email);
-    // ✅ Redirect after success
+    //Redirect after success
     window.location.href = 'trial.html';
   } catch (error) {
     console.error('Login error:', error);

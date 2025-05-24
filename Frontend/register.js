@@ -21,7 +21,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
       }
   
       alert('User registered successfully!');
-      window.location.href = 'login.html'; // or wherever your login page is
+      window.location.href = 'login.html';
   
     } catch (error) {
       console.error('Registration error:', error);

@@ -27,7 +27,6 @@ describe('lookupRoutes', () => {
 
       const response = await request(app).get('/api/searchDoctor?name=John');
 
-      // Check that findOne is called with correct Sequelize query including Op.like symbol
       expect(Doctor.findOne).toHaveBeenCalledTimes(1);
       expect(Doctor.findOne).toHaveBeenCalledWith({
         where: {

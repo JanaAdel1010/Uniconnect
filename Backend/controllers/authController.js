@@ -40,7 +40,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  console.log("Login attempt:", email, password);  // ✅ ADD THIS
+  console.log("Login attempt:", email, password);  
 
   if (!email || !password) {
     return res.status(400).json({ msg: 'Please enter all required fields' });
@@ -49,12 +49,12 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      console.log("User not found");  // ✅ ADD THIS
+      console.log("User not found");  
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Password matched:", isMatch);  // ✅ ADD THIS
+    console.log("Password matched:", isMatch); 
 
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid credentials' });
