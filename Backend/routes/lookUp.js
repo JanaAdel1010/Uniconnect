@@ -3,7 +3,7 @@ const router = express.Router();
 const Doctor = require('../models/doctor');
 const Place = require('../models/place');
 const Session = require('../models/session');
-const { Op, fn, col, where } = require('sequelize');
+const { Op } = require('sequelize');
 
 // GET doctors by name query
 router.get('/searchDoctor', async (req, res) => {
@@ -68,7 +68,7 @@ router.get('/searchSession', async (req, res) => {
   try {
     const sessions = await Session.findAll({
       where: {
-        name: { [Op.like]: `%${John}%` },
+        name: { [Op.like]: `%${name}%` },
       }
     });
 
