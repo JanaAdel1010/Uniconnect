@@ -3,7 +3,7 @@ const router = express.Router();
 const Doctor = require('../models/doctor');
 const Place = require('../models/place');
 const Session = require('../models/session');
-const { Op } = require('sequelize');
+const { Op, fn, col, where } = require('sequelize');
 
 // GET doctors by name query
 router.get('/searchDoctor', async (req, res) => {
